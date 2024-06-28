@@ -1,14 +1,40 @@
-/* import { useContext } from "react";
-import LayoutContext from "../contexts/layoutManager"; */
+import { useContext, useState } from "react";
+import UserContext from "../contexts/userManager";
+import { differenceInCalendarYears } from "date-fns";
+/* import LayoutContext from "../contexts/layoutManager"; */
 
 // pass: ibnsup@24
 export default function Register() {
 	/* const context = useContext(LayoutContext);
 	const { isSidebarOpen, setIsSidebarOpen } = context; */
+	const context = useContext(UserContext);
+	const { user, registerUser } = context;
+	const [userLocal, setUserLocal] = useState({
+		email: "",
+		username: "",
+		firstName: "",
+		lastName: "",
+		password: "",
+		birthDate: new Date(2010),
+	});
+	if (user) return null;
 	return (
 		<div className="flex flex-col gap-4 px-12 py-6 max-w-md mx-auto">
 			<h1>Register</h1>
-			<form className="flex flex-col gap-4">
+			<form
+				className="flex flex-col gap-4"
+				onSubmit={(e) => {
+					e.preventDefault();
+					const { birthDate, ...newUser } = userLocal;
+
+					const age = differenceInCalendarYears(new Date(), birthDate);
+					registerUser({
+						...newUser,
+						age,
+					});
+					return false;
+				}}
+			>
 				<label className="input input-bordered flex items-center gap-2">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -24,6 +50,12 @@ export default function Register() {
 						name="email"
 						className="grow"
 						placeholder="Email"
+						value={userLocal.email}
+						onChange={(e) => {
+							const value = e.target.value;
+							setUserLocal({ ...userLocal, email: value });
+						}}
+						required
 					/>
 				</label>
 				<label className="input input-bordered flex items-center gap-2">
@@ -40,6 +72,12 @@ export default function Register() {
 						name="username"
 						className="grow"
 						placeholder="Username"
+						value={userLocal.username}
+						onChange={(e) => {
+							const value = e.target.value;
+							setUserLocal({ ...userLocal, username: value });
+						}}
+						required
 					/>
 				</label>
 				<label className="input input-bordered flex items-center gap-2">
@@ -56,6 +94,12 @@ export default function Register() {
 						name="firstName"
 						className="grow"
 						placeholder="First name"
+						value={userLocal.firstName}
+						onChange={(e) => {
+							const value = e.target.value;
+							setUserLocal({ ...userLocal, firstName: value });
+						}}
+						required
 					/>
 				</label>
 				<label className="input input-bordered flex items-center gap-2">
@@ -72,6 +116,12 @@ export default function Register() {
 						name="lastName"
 						className="grow"
 						placeholder="Last name"
+						value={userLocal.lastName}
+						onChange={(e) => {
+							const value = e.target.value;
+							setUserLocal({ ...userLocal, lastName: value });
+						}}
+						required
 					/>
 				</label>
 				<label className="input input-bordered flex items-center gap-2">
@@ -87,7 +137,28 @@ export default function Register() {
 							clipRule="evenodd"
 						/>
 					</svg>
-					<input type="password" className="grow" value="password" />
+					<input
+						type="password"
+						className="grow"
+						value={userLocal.password}
+						onChange={(e) => {
+							const value = e.target.value;
+							setUserLocal({ ...userLocal, password: value });
+						}}
+						required
+					/>
+				</label>
+				<label className="input input-bordered flex items-center gap-2">
+					<input
+						type="date"
+						className="grow"
+						value={userLocal.birthDate}
+						onChange={(e) => {
+							const value = e.target.value;
+							setUserLocal({ ...userLocal, birthDate: value });
+						}}
+						required
+					/>
 				</label>
 				<button type="submit" className="btn btn-primary">
 					Register
