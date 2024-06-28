@@ -2,21 +2,22 @@ import "./App.css";
 import { Sidebar } from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import { Content } from "./components/Content";
-
+import LayoutProvider from "./providers/LayoutProvider";
+import { SidebarToggler } from "./components/SidebarToggler";
 function App() {
 	return (
-		<>
+		<LayoutProvider>
 			<div className="drawer">
-				<input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+				<SidebarToggler />
 				<div className="drawer-content flex flex-col">
 					{/* Navbar */}
 					<Navbar />
 					{/* Page content here */}
-					<Content></Content>
+					<Content />
 				</div>
-				<Sidebar></Sidebar>
+				<Sidebar />
 			</div>
-		</>
+		</LayoutProvider>
 	);
 }
 

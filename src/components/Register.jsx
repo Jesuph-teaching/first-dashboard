@@ -1,5 +1,10 @@
+/* import { useContext } from "react";
+import LayoutContext from "../contexts/layoutManager"; */
+
 // pass: ibnsup@24
 export default function Register() {
+	/* const context = useContext(LayoutContext);
+	const { isSidebarOpen, setIsSidebarOpen } = context; */
 	return (
 		<div className="flex flex-col gap-4 px-12 py-6 max-w-md mx-auto">
 			<h1>Register</h1>
@@ -88,6 +93,14 @@ export default function Register() {
 					Register
 				</button>
 			</form>
+			{/* <button
+				className="btn btn-accent"
+				onClick={() => {
+					setIsSidebarOpen(!isSidebarOpen);
+				}}
+			>
+				{isSidebarOpen ? "is Open" : "is Closed"}
+			</button> */}
 		</div>
 	);
 }
