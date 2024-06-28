@@ -1,3 +1,9 @@
+import Register from "./Register";
+
 export function Content() {
-	return <div>Content</div>;
+	return (
+		<div>
+			<Register />
+		</div>
+	);
 }
