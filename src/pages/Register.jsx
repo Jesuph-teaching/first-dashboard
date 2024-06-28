@@ -1,14 +1,12 @@
-import { useContext, useState } from "react";
-import UserContext from "../contexts/userManager";
+import { useState } from "react";
 import { differenceInCalendarYears } from "date-fns";
-/* import LayoutContext from "../contexts/layoutManager"; */
+import useUser from "../hooks/useUser";
+/* import useLayout from "../hooks/useLayout"; */
 
 // pass: ibnsup@24
 export default function Register() {
-	/* const context = useContext(LayoutContext);
-	const { isSidebarOpen, setIsSidebarOpen } = context; */
-	const context = useContext(UserContext);
-	const { user, registerUser } = context;
+	/* const { isSidebarOpen, setIsSidebarOpen } = useLayout(); */
+	const { user, registerUser } = useUser();
 	const [userLocal, setUserLocal] = useState({
 		email: "",
 		username: "",

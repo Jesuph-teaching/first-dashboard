@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import UserContext from "../contexts/userManager";
+import { Link } from "react-router-dom";
+import useUser from "../hooks/useUser";
 
 export default function Navbar() {
-	const context = useContext(UserContext);
-	const { user, logout } = context;
+	const { user, logout } = useUser();
 	return (
 		<div className="w-full navbar bg-base-300">
 			<div className="flex-none ">
@@ -33,10 +32,10 @@ export default function Navbar() {
 				<ul className="menu menu-horizontal">
 					{/* Navbar menu content here */}
 					<li>
-						<a>Navbar Item 1</a>
+						<Link to="/auth/register">Register</Link>
 					</li>
 					<li>
-						<a>Navbar Item 2</a>
+						<Link to="/auth/login">login</Link>
 					</li>
 				</ul>
 			</div>

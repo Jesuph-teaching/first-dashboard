@@ -5,22 +5,26 @@ import { Content } from "./components/Content";
 import LayoutProvider from "./providers/LayoutProvider";
 import { SidebarToggler } from "./components/SidebarToggler";
 import UserProvider from "./providers/UserProvider";
+import { BrowserRouter } from "react-router-dom";
+import Routes from "./Routes";
 function App() {
 	return (
-		<UserProvider>
-			<LayoutProvider>
-				<div className="drawer">
-					<SidebarToggler />
-					<div className="drawer-content flex flex-col">
-						{/* Navbar */}
-						<Navbar />
-						{/* Page content here */}
-						<Content />
+		<BrowserRouter>
+			<UserProvider>
+				<LayoutProvider>
+					<div className="drawer">
+						<SidebarToggler />
+						<div className="drawer-content flex flex-col">
+							{/* Navbar */}
+							<Navbar />
+							{/* Page content here */}
+							<Routes />
+						</div>
+						<Sidebar />
 					</div>
-					<Sidebar />
-				</div>
-			</LayoutProvider>
-		</UserProvider>
+				</LayoutProvider>
+			</UserProvider>
+		</BrowserRouter>
 	);
 }
 
