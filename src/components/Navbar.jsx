@@ -64,10 +64,10 @@ export default function Navbar() {
 							</a>
 						</li>
 						<li>
-							<a className="justify-between">
+							<Link to="/profile" className="justify-between">
 								Profile
 								<span className="badge">New</span>
-							</a>
+							</Link>
 						</li>
 						<li>
 							<a>Settings</a>

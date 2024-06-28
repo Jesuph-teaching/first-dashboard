@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { differenceInCalendarYears } from "date-fns";
 import useUser from "../hooks/useUser";
+// import { useNavigate } from "react-router-dom";
 /* import useLayout from "../hooks/useLayout"; */
 
 // pass: ibnsup@24
 export default function Register() {
 	/* const { isSidebarOpen, setIsSidebarOpen } = useLayout(); */
-	const { user, registerUser } = useUser();
+	const { registerUser } = useUser();
+	// const navigate = useNavigate();
 	const [userLocal, setUserLocal] = useState({
 		email: "",
 		username: "",
@@ -15,7 +17,6 @@ export default function Register() {
 		password: "",
 		birthDate: new Date(2010),
 	});
-	if (user) return null;
 	return (
 		<div className="flex flex-col gap-4 px-12 py-6 max-w-md mx-auto">
 			<h1>Register</h1>
@@ -30,6 +31,7 @@ export default function Register() {
 						...newUser,
 						age,
 					});
+					// navigate("/profile");
 					return false;
 				}}
 			>
