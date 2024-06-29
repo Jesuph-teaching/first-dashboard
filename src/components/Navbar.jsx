@@ -11,7 +11,6 @@ export default function Navbar() {
 	const { user, logout } = useUser();
 	const { title } = useLayout();
 	const { language, changeLanguage } = useLanguage();
-	console.log({ language });
 	return (
 		<div className="w-full navbar bg-base-300">
 			<div className="flex-none ">
@@ -37,23 +36,21 @@ export default function Navbar() {
 				</label>
 			</div>
 			<div className="flex-1 px-2 mx-2">{title}</div>
-			<div className="flex-none hidden lg:block">
-				<ul className="menu menu-horizontal">
-					{/* Navbar menu content here */}
-					<li>
-						<Link to="/auth/register">Register</Link>
-					</li>
-					<li>
-						<Link to="/auth/login">login</Link>
-					</li>
-				</ul>
-			</div>
+			{!user && (
+				<div className="flex-none hidden lg:block">
+					<ul className="menu menu-horizontal">
+						{/* Navbar menu content here */}
+						<li>
+							<Link to="/auth/register">Register</Link>
+						</li>
+						<li>
+							<Link to="/auth/login">login</Link>
+						</li>
+					</ul>
+				</div>
+			)}
 			<div className="dropdown dropdown-end">
-				<div
-					tabIndex={1}
-					role="button"
-					className="btn btn-ghost btn-circle avatar"
-				>
+				<div tabIndex={1} role="button" className="btn btn-ghost">
 					{languages[language]}
 				</div>
 				<ul

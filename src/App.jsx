@@ -7,6 +7,8 @@ import { SidebarToggler } from "./components/SidebarToggler";
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./Routes";
 import store from "./app/store";
+import { Toaster } from "react-hot-toast";
+
 function App() {
 	return (
 		<BrowserRouter>
@@ -21,6 +23,7 @@ function App() {
 					</div>
 					<Sidebar />
 				</div>
+				<Toaster />
 			</Provider>
 		</BrowserRouter>
 	);

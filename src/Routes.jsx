@@ -9,9 +9,23 @@ import ParticipantsTable from "./pages/Participants/ParticipantsTable";
 import ParticipantData from "./pages/Participants/ParticipantData";
 import SessionTable from "./pages/Session/SessionTable";
 import SessionData from "./pages/Session/SessionData";
+import { useEffect } from "react";
+import { getAuth } from "./api/requests/auth";
+import toast from "react-hot-toast";
 
 export default function Routes() {
-	const { user } = useUser();
+	const { user, registerUser } = useUser();
+	// to check if the user is logged in
+	useEffect(() => {
+		getAuth()
+			.then((res) => {
+				registerUser(res.data);
+			})
+			.catch((e) => {
+				toast.error(e.response.data.error);
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 	return useRoutes([
 		{
 			index: true,

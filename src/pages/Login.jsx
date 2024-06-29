@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { login } from "../api/requests/auth";
+import useUser from "../hooks/useUser";
+import toast from "react-hot-toast";
 
 export default function Login() {
 	const [userLocal, setUserLocal] = useState({
 		email: "",
 		password: "",
 	});
+	const { registerUser } = useUser();
 
 	return (
 		<div className="flex flex-col gap-4 px-12 py-6 max-w-md mx-auto">
@@ -13,6 +17,17 @@ export default function Login() {
 				className="flex flex-col gap-4"
 				onSubmit={(e) => {
 					e.preventDefault();
+					if (userLocal.email && userLocal.password)
+						login(userLocal)
+							.then((res) => {
+								registerUser(res.data);
+								toast.success(
+									"Welcome back " + res.data.firstName + " " + res.data.lastName
+								);
+							})
+							.catch((e) => {
+								toast.error(e.response.data.error);
+							});
 					return false;
 				}}
 			>

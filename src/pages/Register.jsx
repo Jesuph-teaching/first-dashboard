@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { differenceInCalendarYears } from "date-fns";
 import useUser from "../hooks/useUser";
 import useLanguage from "../hooks/useLanguage";
 import RegisterDictionary from "../dictionary/Register";
+import { register } from "../api/requests/auth";
+import toast from "react-hot-toast";
 // import { useNavigate } from "react-router-dom";
 /* import useLayout from "../hooks/useLayout"; */
 
@@ -14,7 +15,6 @@ export default function Register() {
 	// const navigate = useNavigate();
 	const [userLocal, setUserLocal] = useState({
 		email: "",
-		username: "",
 		firstName: "",
 		lastName: "",
 		password: "",
@@ -24,16 +24,22 @@ export default function Register() {
 		<div className="flex flex-col gap-4 px-12 py-6 max-w-md mx-auto">
 			<h1>{RegisterDictionary[language].title}</h1>
 			<form
-				className="flex flex-col gap-4"
+				className="flex flex-col gap-4 max-w-md mx-auto"
 				onSubmit={(e) => {
 					e.preventDefault();
-					const { birthDate, ...newUser } = userLocal;
+					// const { birthDate, ...newUser } = userLocal;
+					// const age = differenceInCalendarYears(new Date(), birthDate);
 
-					const age = differenceInCalendarYears(new Date(), birthDate);
-					registerUser({
-						...newUser,
-						age,
-					});
+					register(userLocal)
+						.then((res) => {
+							registerUser(res.data);
+							toast.success(
+								"Welcome " + res.data.firstName + " " + res.data.lastName
+							);
+						})
+						.catch((e) => {
+							toast.error(e.response.data.error);
+						});
 					// navigate("/profile");
 					return false;
 				}}
@@ -57,28 +63,6 @@ export default function Register() {
 						onChange={(e) => {
 							const value = e.target.value;
 							setUserLocal({ ...userLocal, email: value });
-						}}
-						required
-					/>
-				</label>
-				<label className="input input-bordered flex items-center gap-2">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 16 16"
-						fill="currentColor"
-						className="h-4 w-4 opacity-70"
-					>
-						<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-					</svg>
-					<input
-						type="text"
-						name="username"
-						className="grow"
-						placeholder="Username"
-						value={userLocal.username}
-						onChange={(e) => {
-							const value = e.target.value;
-							setUserLocal({ ...userLocal, username: value });
 						}}
 						required
 					/>
