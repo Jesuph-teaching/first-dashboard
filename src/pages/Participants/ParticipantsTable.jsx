@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { participants } from "./participants";
+import useTitle from "../../hooks/useTitle";
 export default function ParticipantsTable() {
+	useTitle("Participants");
 	return (
 		<table className="table ">
 			<thead>

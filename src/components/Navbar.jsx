@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import useUser from "../hooks/useUser";
+import useLayout from "../hooks/useLayout";
 
 export default function Navbar() {
 	const { user, logout } = useUser();
+	const { title } = useLayout();
 	return (
 		<div className="w-full navbar bg-base-300">
 			<div className="flex-none ">
@@ -27,7 +29,7 @@ export default function Navbar() {
 					</svg>
 				</label>
 			</div>
-			<div className="flex-1 px-2 mx-2">Navbar Title</div>
+			<div className="flex-1 px-2 mx-2">{title}</div>
 			<div className="flex-none hidden lg:block">
 				<ul className="menu menu-horizontal">
 					{/* Navbar menu content here */}

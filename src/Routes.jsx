@@ -7,6 +7,8 @@ import useUser from "./hooks/useUser";
 import Profile from "./pages/Profile";
 import ParticipantsTable from "./pages/Participants/ParticipantsTable";
 import ParticipantData from "./pages/Participants/ParticipantData";
+import SessionTable from "./pages/Session/SessionTable";
+import SessionData from "./pages/Session/SessionData";
 
 export default function Routes() {
 	const { user } = useUser();
@@ -45,6 +47,16 @@ export default function Routes() {
 				{
 					path: ":id",
 					element: <ParticipantData />,
+				},
+			],
+		},
+		{
+			path: "/sessions",
+			children: [
+				{ index: true, element: <SessionTable /> },
+				{
+					path: ":sessionId",
+					element: <SessionData />,
 				},
 			],
 		},
