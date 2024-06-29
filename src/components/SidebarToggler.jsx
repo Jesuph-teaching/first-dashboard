@@ -1,9 +1,7 @@
-import { useContext } from "react";
-import LayoutContext from "../contexts/layoutManager";
+import useLayout from "../hooks/useLayout";
 
 export function SidebarToggler() {
-	const context = useContext(LayoutContext);
-	const { isSidebarOpen, setIsSidebarOpen } = context;
+	const { isSidebarOpen, toggleSidebar } = useLayout();
 	return (
 		<input
 			id="my-drawer-3"
@@ -11,7 +9,7 @@ export function SidebarToggler() {
 			className="drawer-toggle"
 			checked={isSidebarOpen}
 			onChange={() => {
-				setIsSidebarOpen(!isSidebarOpen);
+				toggleSidebar();
 			}}
 		/>
 	);

@@ -1,29 +1,27 @@
 import "./App.css";
 import { Sidebar } from "./components/Sidebar";
 import Navbar from "./components/Navbar";
-import { Content } from "./components/Content";
-import LayoutProvider from "./providers/LayoutProvider";
+import { Provider } from "react-redux";
 import { SidebarToggler } from "./components/SidebarToggler";
-import UserProvider from "./providers/UserProvider";
+
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./Routes";
+import store from "./app/store";
 function App() {
 	return (
 		<BrowserRouter>
-			<UserProvider>
-				<LayoutProvider>
-					<div className="drawer">
-						<SidebarToggler />
-						<div className="drawer-content flex flex-col">
-							{/* Navbar */}
-							<Navbar />
-							{/* Page content here */}
-							<Routes />
-						</div>
-						<Sidebar />
+			<Provider store={store}>
+				<div className="drawer">
+					<SidebarToggler />
+					<div className="drawer-content flex flex-col">
+						{/* Navbar */}
+						<Navbar />
+						{/* Page content here */}
+						<Routes />
 					</div>
-				</LayoutProvider>
-			</UserProvider>
+					<Sidebar />
+				</div>
+			</Provider>
 		</BrowserRouter>
 	);
 }
