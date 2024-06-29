@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { differenceInCalendarYears } from "date-fns";
 import useUser from "../hooks/useUser";
+import useLanguage from "../hooks/useLanguage";
+import RegisterDictionary from "../dictionary/Register";
 // import { useNavigate } from "react-router-dom";
 /* import useLayout from "../hooks/useLayout"; */
 
@@ -8,6 +10,7 @@ import useUser from "../hooks/useUser";
 export default function Register() {
 	/* const { isSidebarOpen, setIsSidebarOpen } = useLayout(); */
 	const { registerUser } = useUser();
+	const { language } = useLanguage();
 	// const navigate = useNavigate();
 	const [userLocal, setUserLocal] = useState({
 		email: "",
@@ -19,7 +22,7 @@ export default function Register() {
 	});
 	return (
 		<div className="flex flex-col gap-4 px-12 py-6 max-w-md mx-auto">
-			<h1>Register</h1>
+			<h1>{RegisterDictionary[language].title}</h1>
 			<form
 				className="flex flex-col gap-4"
 				onSubmit={(e) => {
@@ -49,7 +52,7 @@ export default function Register() {
 						type="email"
 						name="email"
 						className="grow"
-						placeholder="Email"
+						placeholder={RegisterDictionary[language].email}
 						value={userLocal.email}
 						onChange={(e) => {
 							const value = e.target.value;

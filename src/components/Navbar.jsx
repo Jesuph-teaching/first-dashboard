@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import useLayout from "../hooks/useLayout";
-
+import useLanguage from "../hooks/useLanguage";
+const languages = {
+	ar: "عربية",
+	en: "English",
+	fr: "Francais",
+};
 export default function Navbar() {
 	const { user, logout } = useUser();
 	const { title } = useLayout();
+	const { language, changeLanguage } = useLanguage();
+	console.log({ language });
 	return (
 		<div className="w-full navbar bg-base-300">
 			<div className="flex-none ">
@@ -38,6 +45,47 @@ export default function Navbar() {
 					</li>
 					<li>
 						<Link to="/auth/login">login</Link>
+					</li>
+				</ul>
+			</div>
+			<div className="dropdown dropdown-end">
+				<div
+					tabIndex={1}
+					role="button"
+					className="btn btn-ghost btn-circle avatar"
+				>
+					{languages[language]}
+				</div>
+				<ul
+					tabIndex={1}
+					className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+				>
+					<li>
+						<a
+							onClick={() => {
+								changeLanguage("en");
+							}}
+						>
+							English
+						</a>
+					</li>
+					<li>
+						<a
+							onClick={() => {
+								changeLanguage("fr");
+							}}
+						>
+							Francais
+						</a>
+					</li>
+					<li>
+						<a
+							onClick={() => {
+								changeLanguage("ar");
+							}}
+						>
+							عربية
+						</a>
 					</li>
 				</ul>
 			</div>
