@@ -1,17 +1,77 @@
 import { Link } from "react-router-dom";
 
 import useTitle from "../../hooks/useTitle";
-import { useEffect, useState } from "react";
-import { getParticipants } from "../../api/requests/participants";
+import { useState } from "react";
+import {
+	createParticipant,
+	deleteParticipant,
+	getParticipants,
+} from "../../api/requests/participants";
 import toast from "react-hot-toast";
+import { useQuery, useMutation } from "@tanstack/react-query";
+
+function DeleteParticipantButton({ _id, refetch }) {
+	const DeleteParticipant = useMutation({
+		mutationFn: deleteParticipant,
+		onSuccess: () => {
+			toast.success("Participant Deleted");
+			refetch();
+		},
+		onError: (e) => {
+			toast.error(e.response.data.error);
+		},
+	});
+	return (
+		<button
+			className="btn btn-error"
+			disabled={DeleteParticipant.isPending}
+			onClick={() => {
+				// delete the participant
+				DeleteParticipant.mutate(_id);
+			}}
+		>
+			{DeleteParticipant.isPending ? (
+				<>
+					<span className="loading loading-spinner loading-sm"></span>
+					Deleting
+				</>
+			) : (
+				"Delete"
+			)}
+		</button>
+	);
+}
+
 export default function ParticipantsTable() {
 	useTitle("Participants");
-	const [participants, setParticipants] = useState([]);
+	// const [participants, setParticipants] = useState([]);
 	const [participantLocal, setParticipantLocal] = useState({
 		name: "",
 		birthDate: "",
 	});
-	function GetData() {
+
+	const {
+		data: { data: participants },
+		error,
+		isFetching,
+		refetch,
+	} = useQuery({
+		initialData: { data: [] },
+		queryKey: ["participants"],
+		queryFn: getParticipants,
+	});
+	const RegisterParticipant = useMutation({
+		mutationFn: createParticipant,
+		onSuccess: () => {
+			toast.success("Participant Created");
+			refetch();
+		},
+		onError: (e) => {
+			toast.error(e.response.data.error);
+		},
+	});
+
+	/* function GetData() {
 		getParticipants()
 			.then((res) => {
 				setParticipants(res.data);
@@ -22,7 +82,7 @@ export default function ParticipantsTable() {
 	}
 	useEffect(() => {
 		GetData();
-	}, []);
+	}, []); */
 	return (
 		<div className="flex flex-col">
 			<h1>Participants</h1>
@@ -31,6 +91,7 @@ export default function ParticipantsTable() {
 				onSubmit={(e) => {
 					e.preventDefault();
 					// send the data to the server
+					RegisterParticipant.mutate(participantLocal);
 					// after sending the data recall GetData
 					return false;
 				}}
@@ -70,34 +131,60 @@ export default function ParticipantsTable() {
 						required
 					/>
 				</label>
-				<button type="submit" className="btn btn-primary">
-					Register
+				<button
+					type="submit"
+					className="btn btn-primary"
+					disabled={RegisterParticipant.isPending}
+				>
+					{RegisterParticipant.isPending ? (
+						<>
+							<span className="loading loading-spinner loading-sm"></span>
+							Registering
+						</>
+					) : (
+						"Register"
+					)}
 				</button>
 			</form>
-			<table className="table ">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Name</th>
-						<th>BirthDate</th>
-						<th>Number Of Participation</th>
-					</tr>
-				</thead>
-				<tbody>
-					{participants.map((participant) => (
-						<tr key={participant.id}>
-							<td>
-								<Link to={`/participants/${participant.id}`}>
-									{participant._id}
-								</Link>
-							</td>
-							<td>{participant.name}</td>
-							<td>{participant.birthDate}</td>
-							<td>{participant.nbrOfParticipation}</td>
+			{isFetching ? (
+				<div className="w-full flex justify-center py-12">
+					<span className="loading loading-spinner w-16"></span>
+				</div>
+			) : error ? (
+				<p>{error.message}</p>
+			) : (
+				<table className="table ">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th>BirthDate</th>
+							<th>Number Of Participation</th>
+							<th>Actions</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{participants.map((participant) => (
+							<tr key={participant.id}>
+								<td>
+									<Link to={`/participants/${participant.id}`}>
+										{participant._id}
+									</Link>
+								</td>
+								<td>{participant.name}</td>
+								<td>{participant.birthDate}</td>
+								<td>{participant.nbrOfParticipation}</td>
+								<td>
+									<DeleteParticipantButton
+										refetch={refetch}
+										_id={participant._id}
+									></DeleteParticipantButton>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			)}
 		</div>
 	);
 }
